@@ -1,0 +1,13 @@
+com\capgemini\cobigen\unittest\config\reader\TemplatesConfigurationReaderTest.class
+com\capgemini\cobigen\unittest\config\upgrade\ContextConfigurationUpgraderTest$1.class
+com\capgemini\cobigen\unittest\config\reader\ContextConfigurationReaderTest.class
+com\capgemini\cobigen\UpgradeTestdataConfigurations.class
+com\capgemini\cobigen\unittest\config\entity\TemplatePathTest.class
+com\capgemini\cobigen\unittest\config\common\AbstractUnitTest.class
+com\capgemini\cobigen\unittest\config\resolver\PathExpressionResolverTest.class
+com\capgemini\cobigen\unittest\config\upgrade\TemplateConfigurationUpgraderTest$1.class
+com\capgemini\cobigen\stubs\TemplateEngineStub.class
+com\capgemini\cobigen\unittest\versioning\VersionValidatorTest.class
+com\capgemini\cobigen\unittest\config\upgrade\TemplateConfigurationUpgraderTest.class
+com\capgemini\cobigen\unittest\healthcheck\HealthCheckTest.class
+com\capgemini\cobigen\unittest\config\upgrade\ContextConfigurationUpgraderTest.class

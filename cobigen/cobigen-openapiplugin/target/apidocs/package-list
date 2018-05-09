@@ -1,0 +1,5 @@
+com.capgemini.cobigen.openapiplugin
+com.capgemini.cobigen.openapiplugin.inputreader
+com.capgemini.cobigen.openapiplugin.matcher
+com.capgemini.cobigen.openapiplugin.model
+com.capgemini.cobigen.openapiplugin.util.constants

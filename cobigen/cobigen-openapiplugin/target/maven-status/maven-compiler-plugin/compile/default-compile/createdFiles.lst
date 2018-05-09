@@ -1,0 +1,17 @@
+com\capgemini\cobigen\openapiplugin\model\EntityDef.class
+com\capgemini\cobigen\openapiplugin\OpenAPITriggerInterpreter.class
+com\capgemini\cobigen\openapiplugin\model\PathDef.class
+com\capgemini\cobigen\openapiplugin\matcher\OpenAPIMatcher$VariableType.class
+com\capgemini\cobigen\openapiplugin\matcher\OpenAPIMatcher.class
+com\capgemini\cobigen\openapiplugin\matcher\OpenAPIMatcher$MatcherType.class
+com\capgemini\cobigen\openapiplugin\model\OperationDef.class
+com\capgemini\cobigen\openapiplugin\inputreader\ModelConstant.class
+com\capgemini\cobigen\openapiplugin\model\PropertyDef.class
+com\capgemini\cobigen\openapiplugin\model\ParameterDef.class
+com\capgemini\cobigen\openapiplugin\model\ComponentDef.class
+com\capgemini\cobigen\openapiplugin\model\ResponseDef.class
+com\capgemini\cobigen\openapiplugin\util\constants\Constants.class
+com\capgemini\cobigen\openapiplugin\OpenAPIPluginActivator.class
+com\capgemini\cobigen\openapiplugin\inputreader\OpenAPIInputReader.class
+com\capgemini\cobigen\openapiplugin\model\OpenAPIFile.class
+com\capgemini\cobigen\openapiplugin\matcher\OpenAPIMatcher$1.class

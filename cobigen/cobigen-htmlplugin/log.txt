@@ -1,0 +1,25 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building CobiGen - HTML Plug-in 1.1.0
+[INFO] ------------------------------------------------------------------------
+[INFO] Downloading: https://repo.maven.apache.org/maven2/com/capgemini/cobigen-core-api/4.1.0/cobigen-core-api-4.1.0.pom
+[WARNING] The POM for com.capgemini:cobigen-core-api:jar:4.1.0 is missing, no dependency information available
+[INFO] Downloading: https://repo.maven.apache.org/maven2/com/capgemini/cobigen-core-test/4.1.0/cobigen-core-test-4.1.0.pom
+[WARNING] The POM for com.capgemini:cobigen-core-test:jar:4.1.0 is missing, no dependency information available
+[INFO] Downloading: https://repo.maven.apache.org/maven2/com/capgemini/cobigen-core-api/4.1.0/cobigen-core-api-4.1.0.jar
+[INFO] Downloading: https://repo.maven.apache.org/maven2/com/capgemini/cobigen-core-test/4.1.0/cobigen-core-test-4.1.0.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 8.339 s
+[INFO] Finished at: 2018-04-23T16:45:54+05:30
+[INFO] Final Memory: 10M/105M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal on project cobigen-htmlplugin: Could not resolve dependencies for project com.capgemini:cobigen-htmlplugin:jar:1.1.0: The following artifacts could not be resolved: com.capgemini:cobigen-core-api:jar:4.1.0, com.capgemini:cobigen-core-test:jar:4.1.0: Could not find artifact com.capgemini:cobigen-core-api:jar:4.1.0 in central (https://repo.maven.apache.org/maven2) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/DependencyResolutionException

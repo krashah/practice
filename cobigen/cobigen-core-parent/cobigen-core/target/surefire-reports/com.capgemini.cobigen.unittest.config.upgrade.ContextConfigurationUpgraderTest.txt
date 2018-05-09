@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.capgemini.cobigen.unittest.config.upgrade.ContextConfigurationUpgraderTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.319 sec - in com.capgemini.cobigen.unittest.config.upgrade.ContextConfigurationUpgraderTest

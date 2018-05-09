@@ -1,0 +1,17 @@
+com.capgemini.cobigen.impl
+com.capgemini.cobigen.impl.aop
+com.capgemini.cobigen.impl.config
+com.capgemini.cobigen.impl.config.constant
+com.capgemini.cobigen.impl.config.entity
+com.capgemini.cobigen.impl.config.reader
+com.capgemini.cobigen.impl.config.resolver
+com.capgemini.cobigen.impl.config.upgrade
+com.capgemini.cobigen.impl.config.versioning
+com.capgemini.cobigen.impl.exceptions
+com.capgemini.cobigen.impl.extension
+com.capgemini.cobigen.impl.generator
+com.capgemini.cobigen.impl.generator.api
+com.capgemini.cobigen.impl.healthcheck
+com.capgemini.cobigen.impl.model
+com.capgemini.cobigen.impl.util
+com.capgemini.cobigen.impl.validator

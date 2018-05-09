@@ -1,0 +1,8 @@
+com\capgemini\cobigen\test\assertj\CobiGenAsserts.class
+com\capgemini\cobigen\test\matchers\VariableAssignmentToMatcher.class
+com\capgemini\cobigen\test\matchers\MatcherToMatcher.class
+com\capgemini\cobigen\test\assertj\HealthCheckReportAssert$1.class
+com\capgemini\cobigen\test\assertj\GenerationReportToAssert.class
+com\capgemini\cobigen\test\matchers\CustomHamcrestMatchers.class
+com\capgemini\cobigen\test\assertj\HealthCheckReportAssert.class
+com\capgemini\cobigen\test\assertj\HealthCheckReportAssert$2.class

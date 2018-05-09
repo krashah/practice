@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.capgemini.cobigen.unittest.config.reader.TemplatesConfigurationReaderTest
+-------------------------------------------------------------------------------
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.292 sec - in com.capgemini.cobigen.unittest.config.reader.TemplatesConfigurationReaderTest

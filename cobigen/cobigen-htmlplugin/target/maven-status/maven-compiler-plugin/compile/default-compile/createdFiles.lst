@@ -1,0 +1,3 @@
+com\capgemini\cobigen\htmlplugin\merger\AngularMerger.class
+com\capgemini\cobigen\htmlplugin\HTMLPluginActivator.class
+com\capgemini\cobigen\htmlplugin\merger\constants\Constants.class

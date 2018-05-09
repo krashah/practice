@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.capgemini</groupId>
+  <artifactId>cobigen-tempeng-freemarker</artifactId>
+  <version>1.0.0</version>
+  <name>CobiGen - FreeMarker Template Engine</name>
+  <url>https://github.com/devonfw/tools-cobigen/cobigen-parent/cobigen-tempeng-parent/cobigen-tempeng-freemarker</url>
+  <licenses>
+    <license>
+      <name>Capgemini CobiGen License Agreement</name>
+      <url>https://github.com/devonfw/tools-cobigen/blob/master/LICENSE.CobiGen</url>
+      <distribution>manual</distribution>
+      <comments>Proprietary license. The complete Capgemini CobiGen License Agreement can be requested from the developers.</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Malte Brunnlieb</name>
+      <email>malte.brunnlieb@capgemini.com</email>
+      <organization>Capgemini</organization>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com:devonfw/tools-cobigen.git/cobigen-parent/cobigen-tempeng-parent/cobigen-tempeng-freemarker</connection>
+    <developerConnection>scm:git:git@github.com:devonfw/tools-cobigen.git/cobigen-parent/cobigen-tempeng-parent/cobigen-tempeng-freemarker</developerConnection>
+    <url>git@github.com:devonfw/tools-cobigen.git/cobigen-parent/cobigen-tempeng-parent/cobigen-tempeng-freemarker</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>com.capgemini</groupId>
+      <artifactId>cobigen-core-api</artifactId>
+      <version>4.2.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.23</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <version>1.1.4</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.21</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.21</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.7.21</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.capgemini</groupId>
+  <artifactId>cobigen-javaplugin.model</artifactId>
+  <version>1.0.0</version>
+  <name>CobiGen Javaplugin Model</name>
+  <url>https://github.com/devonfw/tools-cobigen/cobigen-parent/cobigen-javaplugin-parent/cobigen-javaplugin.model</url>
+  <licenses>
+    <license>
+      <name>Capgemini CobiGen License Agreement</name>
+      <url>https://github.com/devonfw/tools-cobigen/blob/master/LICENSE.CobiGen</url>
+      <distribution>manual</distribution>
+      <comments>Proprietary license. The complete Capgemini CobiGen License Agreement can be requested from the developers.</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Malte Brunnlieb</name>
+      <email>malte.brunnlieb@capgemini.com</email>
+      <organization>Capgemini</organization>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com:devonfw/tools-cobigen.git/cobigen-parent/cobigen-javaplugin-parent/cobigen-javaplugin.model</connection>
+    <developerConnection>scm:git:git@github.com:devonfw/tools-cobigen.git/cobigen-parent/cobigen-javaplugin-parent/cobigen-javaplugin.model</developerConnection>
+    <url>git@github.com:devonfw/tools-cobigen.git/cobigen-parent/cobigen-javaplugin-parent/cobigen-javaplugin.model</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.21</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.21</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.7.21</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>

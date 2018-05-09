@@ -1,0 +1,4 @@
+com\capgemini\cobigen\openapiplugin\integrationtest\InputReaderMatcherTest.class
+com\capgemini\cobigen\openapiplugin\unittest\matcher\OpenAPIMatcherTest.class
+com\capgemini\cobigen\openapiplugin\unittest\inputreader\OpenAPIInputReaderTest.class
+com\capgemini\cobigen\openapiplugin\util\TestConstants.class

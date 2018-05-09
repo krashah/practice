@@ -1,0 +1,7 @@
+com.capgemini.cobigen.api
+com.capgemini.cobigen.api.annotation
+com.capgemini.cobigen.api.constants
+com.capgemini.cobigen.api.exception
+com.capgemini.cobigen.api.extension
+com.capgemini.cobigen.api.to
+com.capgemini.cobigen.api.util
