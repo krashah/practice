@@ -1,12 +1,12 @@
 import os
 import json
 import requests
-import scripts.settings
+from scripts.settings import init
 
 # Function creates an issue in git hub with title,milestone,body,labels passed
 def make_github_issue(title,git_url,milestone=None,body=None, labels=None):
     '''Create an issue on github.com using the given parameters.'''
-    url = 'https://'+init.git_username+':'+init.git_password+git_url+'issues'
+    url = 'https://'+init.git_username+':'+init.git_password+git_url+'/issues'
     session = requests.Session()
     session.auth = (init.git_username, init.git_password)
     issue = {'title': title,
