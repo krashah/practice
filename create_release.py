@@ -186,7 +186,7 @@ build_folder_name=get_build_folder(branch_name)
 if build_folder_name=="invalid":
 	print ("[ERROR]You most probably entered a new branch, which is not yet known to this script.\
 	Please check the script function get_build_folder in scripts/branchname_validation.py and adapt properly");
-	sys.exit()
+	sys.exit();
 else:
 	print('Branch is valid.')
 
@@ -317,8 +317,8 @@ if release_issue_number=="":
     release_issue_number=create_github_issue()
 else:
     url="https://"+init.git_username+":"+init.git_password+git_url+"/issues/"+release_issue_number
-    response_object= requests.get(url)
-    issue_json_data = json.loads(response_object)
+    response_object= requests.get(url);print(url)
+    issue_json_data = json.loads(response_object.text)
     try:
         if issue_json_data['message'] =="Not Found":
             print ("[INFO] Issue not found hence creating a new issue..");
