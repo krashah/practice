@@ -322,7 +322,7 @@ if release_issue_number=="":
     release_issue_number=create_github_issue()
 else:
     url="https://"+init.git_username+":"+init.git_password+git_url+"/issues/"+release_issue_number
-    response_object= requests.get(url);print(url)
+    response_object= requests.get(url)
     issue_json_data = json.loads(response_object.text)
     try:
         if issue_json_data['message'] =="Not Found":
@@ -341,6 +341,7 @@ print ("[INFO] Performing git pull.."+repo.git.pull())
   
 #############################Step 3.4 
 '''Set the SNAPSHOT version'''
+print('[INFO] Set snapshot version of target release')
 commit_message='#'+str(release_issue_number)+' set release snapshot version'
 add_remove_snapshot_version_in_pom(True,commit_message,release_version)
 
