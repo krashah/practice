@@ -90,7 +90,12 @@ def perform_git_reset():
 	print ("[INFO] Executing git reset --hard HEAD.."+git_cmd.execute("git reset --hard HEAD"))
 
 def perform_commit_with_issue_number(commit_message):
-	print ("[INFO] Executing git commit.."+repo.git.commit(message=commit_message))
+    try:
+        print ("[INFO] Executing git commit.."+repo.git.commit(message=commit_message))
+        print ("[INFO] Executing git push.."+repo.git.push())
+    except:
+	    print("[INFO] No File is changed, Nothing to commit..")
+		
 
 def perform_git_reset_pull_on_user_choice(user_choice):
 	if user_choice=='no':
@@ -343,7 +348,7 @@ add_remove_snapshot_version_in_pom(True,commit_message,release_version)
 '''Check relevant poms based on #1 for dependencies!\
  (not pom version itself) declaring SNAPSHOT versions'''
 
-print('Removing ''SNAPSHOT'' from dependencies in Pom.xml and committing it')
+print('[INFO] Removing ''SNAPSHOT'' from dependencies in Pom.xml and committing it')
 
 if bool_dry:
     print ('[INFO] dry-run: would add,commit,push pom.xml after removing suffix - in git')
@@ -372,7 +377,7 @@ else:
     print(repo.git.status())
     commit_message='#'+str(release_issue_number)+' Removing SNAPSHOT suffix from dependencies'
     perform_commit_with_issue_number(commit_message)
-    print ("[INFO] Executing git push.."+repo.git.push())
+    
 
 ############################Step 4 
 '''mvn clean integration-test -> check if everything is # fine, otherwise abort 
