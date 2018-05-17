@@ -1,0 +1,60 @@
+# if(False):
+	# print("Executing git reset --hard HEAD~2.."+git_cmd.execute("git reset --hard HEAD~2"));
+	# print("Executing git pull.."+repo.git.pull());
+	# sys.exit()
+############################Step 5
+'''Update the wiki submodule and commit the latest version to target the updated release version of the wiki'''
+os.chdir("..")
+os.chdir("cobigen-documentation/tools-cobigen.wiki")
+print("Executing git pull origin master.."+git_cmd.execute("git pull origin master"));
+os.chdir("..")
+print("Executing git add.."+repo.git.add(["tools-cobigen.wiki"]))
+print("Executing git commit of tools-cobigen.wiki.."+repo.git.commit(message='#'+release_issue_number+' update docs'))
+print("Executing git push.."+repo.git.push())
+
+#############################Step 6
+'''Merge development branch into master'''
+repo.git.checkout('master')
+print("Executing git pull.."+repo.git.pull());
+try:
+	print("Executing git merge.."+repo.git.merge();
+except:
+	print("Excepion occured"..)
+	print("Executing git merge --abort.."+git_cmd.execute("git merge --abort"));
+	print("Executing git reset --hard HEAD.."+git_cmd.execute("git reset --hard HEAD"));
+	
+#############################Step 7
+'''validation of merge commit'''
+user_input=input("Please check all the changed file paths which is to be released, press N[Not allowed]")
+if(user_input=='N')
+
+url="https://"+init.git_username+":"+init.git_password+git_url+"/releases"
+print(url)
+response_object= requests.get(url)
+	
+#response_object = requests.get('https://'+init.git_username+':'+init.git_password+git_url+'/releases')
+#milestone_json_data = json.loads(response_object.text)
+
+print(response_object)
+#upload_url = response_object.json()["upload_url"]
+
+# uri_template = URITemplate(upload_url)
+# asset_url = uri_template.expand(name = 'cobigen-htmlplugin-1.1.0.jar')
+
+# headers = {
+    # 'Content-Type': 'application/zip',
+    # }
+# response_object = requests.post(
+    # asset_url, 
+    # headers = headers, 
+    # data = open('cobigen-htmlplugin-1.1.0.jar', 'rb').read()
+# )
+print(response_object.status_code)
+print(response_object.text)
+
+
+
+https://uploads.github.com/repos/krashah/practice/releases/10899133/assets/repos/krashah/practice/releases/10899133/assets
+
+https://uploads.github.com/repos/krashah/practice/releases/10899133/assets
+
