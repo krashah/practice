@@ -5,7 +5,6 @@ target
 /.project
 .pyc
 /*.py.log
-/*.py
 /cobigen-eclipse/.project
 cobigen-maven/src/main/resources/META-INF/maven/plugin.xml
 cobigen/cobigen-javaplugin/src/main/resources/lib/*

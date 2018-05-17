@@ -15,10 +15,10 @@ def make_github_issue(title,git_url,milestone=None,body=None, labels=None):
              'labels': labels}
     response_object = session.post(url, json=issue)
     data=response_object.json()
-    issue_number=data["number"]
+    issue_number=data["number"];print("saaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+str(response_object.status_code))
     if response_object.status_code == 201:
         print ('Successfully created issue with title: '+title);
-        return issue_number
+        return str(issue_number)
     else:
         print ('Could not create new issue with title: '+title) 
         return
