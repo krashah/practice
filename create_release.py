@@ -71,7 +71,15 @@ except git.InvalidGitRepositoryError:
 
 git_cmd = git.cmd.Git(".")
 if bool_test:
-    git_url="@api.github.com/repos/krashah/practice"
+    org_name = input("Enter organisation name of repo: ")
+    #Checking if nothing is entered then ask user to enter again   
+    while (not org_name.strip()):
+        org_name = input("Enter Organisation name of Repo: ")
+    repo_name = input("Enter name of repo: ")
+    #Checking if nothing is entered then ask user to enter again   
+    while (not repo_name.strip()):
+        repo_name = input("Enter name of Repo:  ")
+    git_url="@api.github.com/repos/"+org_name+"/"+repo_name+""
 else:
     git_url="@api.github.com/repos/devonfw/tools-cobigen"
 pl_url="https://devon.s2-eu.capgemini.com/"
@@ -91,7 +99,7 @@ g = Github(init.git_username, init.git_password)
 user = g.get_user()
 
 if bool_test:
-    rep = user.get_repo("practice")
+    rep = user.get_repo(repo_name)
 else:
     org = g.get_organization("devonfw")
     rep = org.get_repo("tools-cobigen")
@@ -223,15 +231,12 @@ if not ("ICSD_FILESERVER_USER" and "ICSD_FILESERVER_PASSWD") in os.environ:
 
 ############################Step 1.1.1  
 # Enter Branch Name-mandatory
-if bool_test:
-    branch_name="dev_htmlmerger"
-else:
-    branch_name = input("Enter branch name: ")  
+branch_name = input("Enter branch name: ")  
 
-    #Checking if nothing is entered then ask user to enter again   
-    while (branch_name.strip() and not check_branch_validity(branch_name)):
-        print_info("You have entered branch which doesn't exists, Please enter valid branch name.");
-        branch_name = input("Enter branch name: ")   
+#Checking if nothing is entered then ask user to enter again   
+while (branch_name.strip() and not check_branch_validity(branch_name)):
+    print_info("You have entered branch which doesn't exists, Please enter valid branch name.");
+    branch_name = input("Enter branch name: ")   
 
 build_folder_name=get_build_folder(branch_name)
 
@@ -581,7 +586,7 @@ else:
         print_info("Milestone >>", release_milestone.title, "<< is already closed, please check.")
     else:
         release_milestone.edit(release_milestone.title, "closed", release_milestone.description)
-        print_info("New status of Milestone >>", release_milestone.title, "<< is:", release_milestone.state )
+        print_info("New status of Milestone >>" +release_milestone.title+ "<< is:"+ release_milestone.state )
 
 #############################Step 11.2
 '''create a new release'''
