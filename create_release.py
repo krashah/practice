@@ -71,7 +71,7 @@ except git.InvalidGitRepositoryError:
 
 git_cmd = git.cmd.Git(".")
 if bool_test:
-    git_url="@api.github.com/repos/TODO/TODO"
+    git_url="@api.github.com/repos/krashah/practice"
 else:
     git_url="@api.github.com/repos/devonfw/tools-cobigen"
 pl_url="https://devon.s2-eu.capgemini.com/"
@@ -91,7 +91,7 @@ g = Github(init.git_username, init.git_password)
 user = g.get_user()
 
 if bool_test:
-    rep = user.get_repo("TODO")
+    rep = user.get_repo("practice")
 else:
     org = g.get_organization("devonfw")
     rep = org.get_repo("tools-cobigen")
@@ -220,7 +220,7 @@ if not ("ICSD_FILESERVER_USER" and "ICSD_FILESERVER_PASSWD") in os.environ:
 ############################Step 1.1.1  
 # Enter Branch Name-mandatory
 if bool_test:
-    branch_name="TODO"
+    branch_name="dev_htmlmerger"
 else:
     branch_name = input("Enter branch name: ")  
 
@@ -385,7 +385,7 @@ else:
 print("****Script will update versions by navigating to correct module folder depending on #1****")
 os.chdir(build_folder_name)
 print_info("Current working directory changed to: "+os.getcwd())
-if bool_dry:
+if bool_dry and bool_test:
     try:
         print_info("Executing git Add and commit.."+repo.git.add(u=True)+repo.git.commit(message="Temporary commit files while dry run"))
         print_info("Executing git merge --abort.."+git_cmd.execute("git submodule update")+git_cmd.execute("git clean -f -d"));        
