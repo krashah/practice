@@ -361,7 +361,8 @@ def create_github_issue():
         release_issue_number="999"
     else: 
         release_issue_number=make_github_issue("Release "+build_folder_without_cobigen+"-"+release_version_with_v,git_url,\
-        milestone_number,issue_text,[build_folder_without_cobigen]);	
+        milestone_number,issue_text,[build_folder_without_cobigen]);
+        print_info("Issue #"+release_issue_number+" created")		
     return release_issue_number
     
  # Search for the Release issue to be used , if not found, create one:
