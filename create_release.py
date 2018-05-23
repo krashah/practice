@@ -106,12 +106,15 @@ def perform_git_pull(message):
 
 # Method performing git actions
 def perform_git_reset():
-	print_info("Executing git reset --hard HEAD.."+repo.git.reset('--hard'))
+    print_info("Executing git reset --hard HEAD..")
+    repo.git.reset('--hard')
 
 def perform_commit_with_issue_number(commit_message):
     try:
-        print_info("Executing git commit.."+repo.git.commit(message=commit_message))
-        print_info("Executing git push.."+repo.git.push())
+        print_info("Executing git commit..")
+        repo.git.commit(message=commit_message)
+        print_info("Executing git push..")
+        repo.git.push()
     except Exception as e:
 	    if "no changes added to commit" in str(e):
 	        print_info("No File is changed, Nothing to commit..")
@@ -200,9 +203,10 @@ def add_remove_snapshot_version_in_pom(bool_add_snapshot,commit_message,version_
     if bool_dry:
         print_info("dry-run: would add,commit,push pom.xml in git")
     else:   
-	    print_info("Executing git add.."+repo.git.add(["pom.xml"]))
-	    print(repo.git.status())
-	    perform_commit_with_issue_number(commit_message)
+        print_info("Executing git add..")
+        repo.git.add(["pom.xml"])
+        print(repo.git.status())
+        perform_commit_with_issue_number(commit_message)
 
 #This Method is responsible for checking branches in repository with branch entered by user
 def check_branch_validity(branch_name):
@@ -432,7 +436,8 @@ else:
                                 continue
                         except:
                             continue
-    print_info("Executing git add.."+repo.git.add(["pom.xml"]))
+    print_info("Executing git add..")
+    repo.git.add(["pom.xml"])
     print(repo.git.status())
     commit_message="#"+str(release_issue_number)+" Removing SNAPSHOT suffix from dependencies"
     perform_commit_with_issue_number(commit_message)
@@ -452,7 +457,8 @@ if maven_process.returncode == 1:
     if bool_dry:
         print_info("dry-run: would perform git reset and pull")
     else: 
-        print_info("Executing git reset --hard HEAD~2.."+repo.head.reset('HEAD~2', index=True, working_tree=True));
+        print_info("Executing git reset --hard HEAD~2..")
+        repo.head.reset('HEAD~2', index=True, working_tree=True);
         perform_git_pull("Executing git pull as build failed")        
     sys.exit();
 	
@@ -469,13 +475,16 @@ new_title=title+" "+release_version_with_v
 with fileinput.FileInput(wiki_version_overview_page, inplace=True) as file:
 	for line in file:	
 		line = re.sub(r''+title+'.+',new_title, line)
-		sys.stdout.write(line)
+		sys.stdout.write(line)	
+		
 print(release_issue_number)		
 if bool_dry:
     print_info("dry-run: would perform git add, commit and push of wiki page")
 else:
-    print_info("Executing git add.."+repo.git.add([wiki_version_overview_page]))
-    print_info("Executing git commit of tools-cobigen.wiki.."+perform_commit_with_issue_number("#"+release_issue_number+" update wiki docs"))   
+    print_info("Executing git add..")
+    repo.git.add([wiki_version_overview_page])
+    print_info("Executing git commit of tools-cobigen.wiki..")
+    perform_commit_with_issue_number("#"+release_issue_number+" update wiki docs")   
 
 #############################Step 6
 '''Merge development branch into master'''
@@ -487,12 +496,14 @@ if bool_dry:
 else:
     repo.git.checkout("master")
     try:
-	    perform_git_pull("Executing git pull before merging development branch to master")
-	    print_info("Executing git merge..."+repo.git.merge(branch_name));
+        perform_git_pull("Executing git pull before merging development branch to master")
+        print_info("Executing git merge...")
+        repo.git.merge(branch_name);
     except:
-	    print_info("Exception occured..")
-	    print_info("Executing git merge --abort.."+git_cmd.execute("git merge --abort"));
-	    perform_git_reset();
+        print_info("Exception occured..")
+        print_info("Executing git merge --abort..")
+        git_cmd.execute("git merge --abort");
+        perform_git_reset();
 	
 #############################Step 7
 '''validation of merge commit'''
@@ -555,7 +566,8 @@ if bool_dry:
     print("dry-run:would create a new tag")
 else:
     new_tag=repo.create_tag(tag_name)
-    print_info("Pushing git tags.."+origin.push(new_tag))
+    print_info("Pushing git tags..")
+    origin.push(new_tag)
 
 #############################Step 11.1
 '''Process GitHub Milestone and Create Release'''
