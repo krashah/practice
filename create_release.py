@@ -470,7 +470,7 @@ with fileinput.FileInput(wiki_version_overview_page, inplace=True) as file:
 	for line in file:	
 		line = re.sub(r''+title+'.+',new_title, line)
 		sys.stdout.write(line)
-		
+print(release_issue_number)		
 if bool_dry:
     print_info("dry-run: would perform git add, commit and push of wiki page")
 else:
