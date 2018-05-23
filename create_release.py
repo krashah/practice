@@ -100,7 +100,7 @@ else:
 def perform_git_pull(message):
     try:
         print_info(message +"..");
-        origin.pull()
+        origin.pull(allow_unrelated_histories=True)
     except git.GitCommandError as e:
         print("[EXCEPTION] Pull is not possible because you have unmerged files. Fix them up in the work tree, and then try again.")
 
