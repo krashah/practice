@@ -498,7 +498,7 @@ else:
     try:
         perform_git_pull("Executing git pull before merging development branch to master")
         print_info("Executing git merge...")
-        repo.git.merge(branch_name);
+        git_cmd.execute("git merge --allow-unrelated-histories "+branch_name);
     except:
         print_info("Exception occured..")
         print_info("Executing git merge --abort..")
