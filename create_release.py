@@ -386,7 +386,7 @@ else:
 print("****Script will update versions by navigating to correct module folder depending on #1****")
 os.chdir(build_folder_name)
 print_info("Current working directory changed to: "+os.getcwd())
-if bool_dry and bool_test:
+if bool_dry or bool_test:
     try:
         print_info("Executing git Add and commit.."+repo.git.add(u=True)+repo.git.commit(message="Temporary commit files while dry run"))
         print_info("Executing git merge --abort.."+git_cmd.execute("git submodule update")+git_cmd.execute("git clean -f -d"));        
