@@ -471,7 +471,7 @@ if maven_process.returncode == 1:
     sys.exit();
 
 print_info("maven clean integration is successful")	
-move(build_folder_path+os.sep+"create_release.py.log", root_path+os.sep+"create_release.py.log")	
+
 ############################Step 5
 '''Update the wiki submodule and commit the latest version to target the updated release version of the wiki'''
 print("****Script will update the wiki submodule and commit the latest version to target the updated release version of the wiki****")
