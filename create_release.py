@@ -525,16 +525,16 @@ else:
 print("****Script will check validation of merge commit****")
 print("Please check all the changed file paths which is to be released")
 list_of_changed_files=str(git_cmd.execute("git diff --name-only")).strip().split("\\n+")
+print("Following files are changed:"+git_cmd.execute("git diff --name-only"))
 is_pom_changed=False
 if bool_dry:
     print("dry-run: would check if anything outside build folder is changed.If yes, user is asked to continue or not")
 else:
     for file_name in list_of_changed_files:
-        print_info(file_name+" is changed")
         if "pom.xml" in file_name:
             is_pom_changed=True;
         if not file_name.startswith(build_folder_name):
-            print(file_name +" does not starts with "+build_folder_name);
+            #print(file_name +" does not starts with "+build_folder_name);
             user_choice=input("Some Files are outside the folder "+build_folder_name+". Do you want to continue merge? Press 'no' else any other key to continue: ")
             perform_git_reset_pull_on_user_choice(user_choice)
             user_acceptance_messages.append("User has accepted to continue when found that some files were outside of build folder name")
@@ -583,7 +583,7 @@ print_info("Creating Tag: "+tag_name)
 if bool_dry:
     print("dry-run:would create a new tag")
 else:
-    new_tag=repo.create_tag(tag_name+"zsssxz")
+    new_tag=repo.create_tag(tag_name+"zsssttrrrxz")
     print_info("Pushing git tags..")
     origin.push(new_tag)
 
