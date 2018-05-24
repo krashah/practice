@@ -119,14 +119,13 @@ def perform_git_reset():
 
 def perform_commit_with_issue_number(commit_message):
     try:
-        print_info("Executing git commit..")
+        print_info("Executing git commit with commit message: "+commit_message)
         repo.git.commit(message=commit_message)
         print_info("Executing git push..")
         repo.git.push()
     except Exception as e:
 	    if "no changes added to commit" in str(e):
-	        print_info("No File is changed, Nothing to commit..")
-		
+	        print_info("No File is changed, Nothing to commit..")	
 
 def perform_git_reset_pull_on_user_choice(user_choice):
 	if user_choice=="no":
@@ -140,17 +139,22 @@ def add_snapshot_in_version(name,pom,version_to_change,file_path):
         name.text=str(new_version);
         if branch_name=="dev_eclipseplugin":
             pom.write(file_path)
+            print_info("Changed pom.xml located at "+file_path+"  with SNAPSHOT version "+name.text)			
         else:
             pom.write("pom.xml")
-
+            print_info("Changed pom.xml with SNAPSHOT version "+name.text)
+			
+# This method is responsible for removing snapshot from the pom version
 def remove_snapshot_in_version(name,pom,version_to_change,file_path):
     if name.text== version_to_change+"-SNAPSHOT":
         new_version=version_to_change
         name.text=str(new_version)
         if branch_name=="dev_eclipseplugin":
             pom.write(file_path)
+            print_info("Changed pom.xml located at "+file_path+"  with version "+name.text)			
         else:
             pom.write("pom.xml")
+            print_info("Changed pom.xml with SNAPSHOT version "+name.text)
 
 def get_exit_message_milestone():
     print("[ERROR] Please check if you passed the correct version to be released or check whether you missed \
@@ -165,7 +169,7 @@ def call_add_remove_snapshot_method(name,pom,bool_add_snapshot,version_to_change
 
 # This method is responsible for adding SNAPSHOT version if not already added
 def add_remove_snapshot_version_in_pom(bool_add_snapshot,commit_message,version_to_change):
-    print_info("Checking out branch for adding SNAPSHOT version: "+branch_name+".")
+    #print_info("Checking out branch for adding SNAPSHOT version: "+branch_name+".")
     #repo.git.checkout(branch_name)
     repo.git.__init__()
     pom = etree.parse("pom.xml")
@@ -205,8 +209,6 @@ def add_remove_snapshot_version_in_pom(bool_add_snapshot,commit_message,version_
     else :    	
         name  = pom.find("{http://maven.apache.org/POM/4.0.0}version")
         call_add_remove_snapshot_method(name,pom,bool_add_snapshot,version_to_change,None)
-
-    print_info("Current working directory changed to: "+os.getcwd());
 
     if bool_dry:
         print_info("dry-run: would add,commit,push pom.xml in git")
@@ -314,7 +316,7 @@ if branch_name in ("dev_tempeng_freemarker","dev_tempeng_velocity"):
     # else:
 	    # user_acceptance_messages.append("User cleaned working directory and allowed script to run further.")
     
-#############################Step 0      
+# #############################Step 0      
 # print_info("Check branch build not failing in production line "+pl_url+" ")
 # value=input("Press 'yes' if you have checked that build is not failing else 'no': ").lower()
 # while (value !="yes" and value!="no"):   
@@ -358,7 +360,7 @@ if matched_milestone_title != "":
         get_exit_message_milestone()
 else:
     get_exit_message_milestone()
-      
+print_info("Milestone with title "+matched_milestone_title+" found")      
 #############################Step 2.2
 '''Search for the Release issue to be used (based on #2) -> if not found, create one:'''
 print("****Script will search for the release issue to be used (based on #2) -> if not found, it will create new issue****")
@@ -397,15 +399,15 @@ os.chdir(build_folder_name)
 print_info("Current working directory changed to: "+os.getcwd())
 if bool_dry or bool_test:
     try:
-        print_info("Executing git Add and commit.."+repo.git.add(u=True)+repo.git.commit(message="Temporary commit files while dry run"))
-        print_info("Executing git merge --abort.."+git_cmd.execute("git submodule update")+git_cmd.execute("git clean -f -d"));        
+        print_info("--dry run :Executing git Add and commit.."+repo.git.add(u=True)+repo.git.commit(message="Temporary commit files while dry run"))
+        print_info("--dry run :Executing git merge --abort.."+git_cmd.execute("git submodule update")+git_cmd.execute("git clean -f -d"));        
     except git.GitCommandError as e:
-        print("[EXCEPTION] Exception occurred when executing git command 'git submodule update' and 'git clean -f -d' ")
+        print("[EXCEPTION] --dry run : Exception occurred when executing git command 'git submodule update' and 'git clean -f -d' ")
 
 print_info("Performing git checkout.."+repo.git.checkout(branch_name))
 perform_git_pull("Executing git pull")
 changed_branch = repo.active_branch
-print(changed_branch.name)
+print("Successfully switched from Master to "+changed_branch.name+" branch")
 #############################Step 3.4 
 '''Set the SNAPSHOT version'''
 print_info("Set snapshot version of target release")
@@ -435,6 +437,7 @@ else:
                                 new_version=name.text.split("-")
                                 name.text=str(new_version[0])
                                 pom.write(fpath)
+                                print_info("Removed SNAPSHOT from dependencies in pom.xml located at "+fpath)
                                 if artifactId =="cobigen-core":
                                     core_version_in_eclipse_pom=name.text
                             else:
@@ -452,21 +455,22 @@ else:
 '''mvn clean integration-test -> check if everything is # fine, otherwise abort 
 (git reset --hard HEAD~2 && git pull) '''
 print("****Script will perform 'mvn clean integration-test' and checks if everything is fine, otherwise it aborts****")
-print_info("Testing maven integeration..")
+print_info("Testing maven integration..")
 print_info("If maven clean integration-test fails,git reset --hard will be executed to revoke last commits and operation will be revoked")
-maven_process= subprocess.Popen("mvn clean integration-test -Pp2-build-mars,p2-build-stable --log-file create_release.py.log ", shell=True,stdout = subprocess.PIPE)
+maven_process= subprocess.Popen("mvn clean integration-test -Pp2-build-mars,p2-build-stable", shell=True,stdout = subprocess.PIPE)
 
 stdout, stderr = maven_process.communicate()
 if maven_process.returncode == 1:
-    print_info("Maven clean integeration fails, please see create_release.py.log for logs located at current directory ");    
+    print_info("Maven clean integration fails, please see create_release.py.log for logs located at current directory ");    
     if bool_dry:
         print_info("dry-run: would perform git reset and pull")
     else: 
         print_info("Executing git reset --hard HEAD~2..")
         repo.head.reset('HEAD~2', index=True, working_tree=True);
-        perform_git_pull("Executing git pull as build failed")        
+        perform_git_pull("Executing git pull as build failed")
     sys.exit();
-	
+
+print_info("maven clean integration is successful")	
 move(build_folder_path+os.sep+"create_release.py.log", root_path+os.sep+"create_release.py.log")	
 ############################Step 5
 '''Update the wiki submodule and commit the latest version to target the updated release version of the wiki'''
@@ -474,32 +478,36 @@ print("****Script will update the wiki submodule and commit the latest version t
 filepath = os.path.abspath(os.path.join(root_path, "cobigen-documentation", "tools-cobigen.wiki"))
 perform_git_pull("Executing git pull before updating wiki")
 os.chdir(filepath)
-print_info("Changing the "+wiki_version_overview_page+" file, updating the version number")
+print_info("Changing the "+wiki_version_overview_page+" file, updating the version number "+release_version_with_v)
 title=get_cobigenwiki_title_name(branch_name)
 new_title=title+" "+release_version_with_v
 with fileinput.FileInput(wiki_version_overview_page, inplace=True) as file:
 	for line in file:	
 		line = re.sub(r''+title+'.+',new_title, line)
-		sys.stdout.write(line)	
-		
-print(release_issue_number)		
+		sys.stdout.write(line)
+print_info("Successfully changed version number in "+wiki_version_overview_page+" file")		
 if bool_dry:
     print_info("dry-run: would perform git add, commit and push of wiki page")
 else:
-    print_info("Executing git add..")
+    print_info("Executing git add "+wiki_version_overview_page+"..")
     repo.git.add([wiki_version_overview_page])
     print_info("Executing git commit of tools-cobigen.wiki..")
-    perform_commit_with_issue_number("#"+release_issue_number+" update wiki docs")   
-
+    perform_commit_with_issue_number("#"+release_issue_number+" update wiki docs")
 #############################Step 6
 '''Merge development branch into master'''
 print("****Script will merge development branch into master****")
+print_info("Checking out master branch and changing current directory to "+build_folder_path+"..")
 os.chdir(build_folder_path)
+if bool_dry or bool_test:
+    try:
+        print_info("Executing git Add and commit.."+repo.git.add(u=True)+repo.git.commit(message="Temporary commit files while dry run"))        
+    except git.GitCommandError as e:
+        print("[EXCEPTION] Exception occurred while adding and committing in git repo ")
+
 repo.git.checkout("master")
 if bool_dry:
     print("dry-run: would perform git merge")
-else:
-    repo.git.checkout("master")
+else:    
     try:
         perform_git_pull("Executing git pull before merging development branch to master")
         print_info("Executing git merge...")
@@ -520,6 +528,7 @@ if bool_dry:
     print("dry-run: would check if anything outside build folder is changed.If yes, user is asked to continue or not")
 else:
     for file_name in list_of_changed_files:
+        print_info(file_name+" is changed")
         if "pom.xml" in file_name:
             is_pom_changed=True;
         if not file_name.startswith(build_folder_name):
@@ -544,25 +553,27 @@ add_remove_snapshot_version_in_pom(False,commit_message,release_version)
 ############################Step 9
 '''deploy''' 
 print("****Script will deploy based on branch****")
-if build_folder_name!="cobigen-eclipse":
-    if "Windows" in platform.platform():
-	    os.system("start cmd.exe @cmd /k \" echo 1) *****************Executing maven clean package*****************\
-	    & mvn clean package --update-snapshots bundle:bundle -Pp2-bundle  -Dmaven.test.skip=true & echo 2) *****************\
-	    Executing maven install***************** & mvn install bundle:bundle -Pp2-bundle p2:site -Dmaven.test.skip=true & echo 3)\
-	    *****************Executing maven deploy***************** & mvn deploy -Pp2-upload-stable -Dmaven.test.skip=true -Dp2.upload=stable\"")
+print_info("Executing mvn clean deploy/mvn clean package in separate console, please check console output for further action..")
+if not (bool_dry or bool_test):
+    if build_folder_name!="cobigen-eclipse":
+        if "Windows" in platform.platform():
+	        os.system("start cmd.exe @cmd /k \" echo 1) *****************Executing maven clean package*****************\
+	        & mvn clean package --update-snapshots bundle:bundle -Pp2-bundle  -Dmaven.test.skip=true & echo 2) *****************\
+	        Executing maven install***************** & mvn install bundle:bundle -Pp2-bundle p2:site -Dmaven.test.skip=true & echo 3)\
+	        *****************Executing maven deploy***************** & mvn deploy -Pp2-upload-stable -Dmaven.test.skip=true -Dp2.upload=stable\"")
+        else:
+            os.system("gnome-terminal -e 'bash -c \"mvn clean package --update-snapshots bundle:bundle -Pp2-bundle  -Dmaven.test.skip=true; exec bash\" ' ")
+            os.system("gnome-terminal -e 'bash -c \"mvn install bundle:bundle -Pp2-bundle p2:site -Dmaven.test.skip=true; exec bash\"'")
+            os.system("gnome-terminal -e 'bash -c \"mvn deploy -Pp2-upload-stable -Dmaven.test.skip=true -Dp2.upload=stable; exec bash\"'")  
     else:
-        os.system("gnome-terminal -e 'bash -c \"mvn clean package --update-snapshots bundle:bundle -Pp2-bundle  -Dmaven.test.skip=true; exec bash\" ' ")
-        os.system("gnome-terminal -e 'bash -c \"mvn install bundle:bundle -Pp2-bundle p2:site -Dmaven.test.skip=true; exec bash\"'")
-        os.system("gnome-terminal -e 'bash -c \"mvn deploy -Pp2-upload-stable -Dmaven.test.skip=true -Dp2.upload=stable; exec bash\"'")  
-else:
-    if "Windows" in platform.platform():
-        os.system("start cmd.exe @cmd /k \"mvn clean deploy -Pp2-build-stable,p2-upload-stable,p2-build-mars -Dp2.upload=stable\"")
-    else:
-	    os.system("gnome-terminal -e 'bash -c \"mvn clean deploy -Pp2-build-stable,p2-upload-stable,p2-build-mars -Dp2.upload=stable; exec bash\" ' ")
+        if "Windows" in platform.platform():
+            os.system("start cmd.exe @cmd /k \"mvn clean deploy -Pp2-build-stable,p2-upload-stable,p2-build-mars -Dp2.upload=stable\"")
+        else:
+	        os.system("gnome-terminal -e 'bash -c \"mvn clean deploy -Pp2-build-stable,p2-upload-stable,p2-build-mars -Dp2.upload=stable; exec bash\" ' ")
 
-user_choice=input("Please check installation of module from update site,Do you want to continue? Press 'yes' for continue or 'no' for abort: ")
-if user_choice=="no":
-	sys.exit()
+    user_choice=input("Please check installation of module from update site,Do you want to continue? Press 'yes' for continue or 'no' for abort: ")
+    if user_choice=="no":
+	    sys.exit()
 
 ############################Step 10
 '''Create Tag'''
@@ -570,7 +581,7 @@ print_info("Creating Tag: "+tag_name)
 if bool_dry:
     print("dry-run:would create a new tag")
 else:
-    new_tag=repo.create_tag(tag_name+"cc")
+    new_tag=repo.create_tag(tag_name+"zxz")
     print_info("Pushing git tags..")
     origin.push(new_tag)
 
@@ -597,6 +608,7 @@ else:
     url_milestone = "https://github.com/"+ rep.full_name + "/milestone/" + str(milestone_number)+"?closed=1"
     release_title = new_title.replace(" -","")
     release_text = "[ChangeLog](" + url_milestone + ")"
+    print_info("Release title would be: "+release_title)
     if "eclipse" in branch_name:
 	    for i in range(len(milestone_json_data)):
 		    if "cobigen-core-v"+core_version_in_eclipse_pom == milestone_json_data[i]["title"]:
@@ -628,7 +640,7 @@ else:
                 fpath = os.path.join(root, fname);
 				# To prevent uploading of unnecessary zip/jar files.
                 if ("jar" in fname or "zip" in fname) and release_version in fname:
-                    print("Uploading file "+fname+"..")
+                    print("Uploading file in git release "+fname+"..")
                     asset_url = uri_template.expand(name=fname)
                     r = requests.post(asset_url, auth=(init.git_username,init.git_password) ,headers={'Content-Type':content_type}, files={'file': (fname, open(fpath, 'rb'), 'application/octet-stream')})
     except Exception as e:
@@ -646,7 +658,7 @@ if bool_dry:
 else:
     new_mile_title =release_milestone.title.strip(" Release").strip(release_version) + next_version
     new_mile_description = release_milestone.description
-    print_info("Creating the next milestone..")
+    print_info("Creating the next milestone with title: "+new_mile_title)
     try:
         rep.create_milestone(new_mile_title, "open", new_mile_description)
     except github.GithubException as e:
@@ -683,6 +695,7 @@ add_remove_snapshot_version_in_pom(True,commit_message,next_version)
 #############################Step 14
 '''Close issue number'''
 print("****Script will close github issue****")
+print_info("issue with number #"+release_issue_number+" is getting closed ..")
 release_issue = rep.get_issue(int(release_issue_number))
 if bool_dry:
     print_info("dry-run: would close the release issue")
@@ -691,7 +704,7 @@ else:
     closing_comment = "Automatically processed."
     release_issue.create_comment(closing_comment)
     release_issue.edit(state="closed")
-    print_info("Closed issue >>"+ release_issue.title+ "<<")
+    print_info("Closed issue >>"+ release_issue.title+ "<< with comment "+closing_comment)
 	
 print("Script has been executed successfully, below are the points that user accepted during script execution: ")
 
