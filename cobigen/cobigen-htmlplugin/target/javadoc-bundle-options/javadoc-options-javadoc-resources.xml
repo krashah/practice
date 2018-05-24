@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <javadocOptions>
+  <tags>
+    <tag>
+      <name>author</name>
+      <head>Author:</head>
+    </tag>
+  </tags>
   <docletArtifacts>
     <docletArtifact />
   </docletArtifacts>

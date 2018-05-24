@@ -458,7 +458,9 @@ print("****Script will perform 'mvn clean integration-test' and checks if everyt
 print_info("Testing maven integration..")
 print_info("If maven clean integration-test fails,git reset --hard will be executed to revoke last commits and operation will be revoked")
 maven_process= subprocess.Popen("mvn clean integration-test -Pp2-build-mars,p2-build-stable", shell=True,stdout = subprocess.PIPE)
-
+for line in maven_process.stdout:
+    print(line.decode('utf-8'),end='')
+maven_process.wait()
 stdout, stderr = maven_process.communicate()
 if maven_process.returncode == 1:
     print_info("Maven clean integration fails, please see create_release.py.log for logs located at current directory ");    
@@ -554,7 +556,7 @@ add_remove_snapshot_version_in_pom(False,commit_message,release_version)
 '''deploy''' 
 print("****Script will deploy based on branch****")
 print_info("Executing mvn clean deploy/mvn clean package in separate console, please check console output for further action..")
-if not (bool_dry or bool_test):
+if not (bool_dry):
     if build_folder_name!="cobigen-eclipse":
         if "Windows" in platform.platform():
 	        os.system("start cmd.exe @cmd /k \" echo 1) *****************Executing maven clean package*****************\
