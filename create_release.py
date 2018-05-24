@@ -581,7 +581,7 @@ print_info("Creating Tag: "+tag_name)
 if bool_dry:
     print("dry-run:would create a new tag")
 else:
-    new_tag=repo.create_tag(tag_name+"zxz")
+    new_tag=repo.create_tag(tag_name+"zsssxz")
     print_info("Pushing git tags..")
     origin.push(new_tag)
 
