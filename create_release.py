@@ -71,7 +71,15 @@ except git.InvalidGitRepositoryError:
 
 git_cmd = git.cmd.Git(".")
 if bool_test:
-    git_url="@api.github.com/repos/TODO/TODO"
+    org_name = input("Enter organisation name of repo: ")
+    #Checking if nothing is entered then ask user to enter again   
+    while (not org_name.strip()):
+        org_name = input("Enter Organisation name of Repo: ")
+    repo_name = input("Enter name of repo: ")
+    #Checking if nothing is entered then ask user to enter again   
+    while (not repo_name.strip()):
+        repo_name = input("Enter name of Repo:  ")
+    git_url="@api.github.com/repos/"+org_name+"/"+repo_name+""
 else:
     git_url="@api.github.com/repos/devonfw/tools-cobigen"
 pl_url="https://devon.s2-eu.capgemini.com/"
@@ -91,7 +99,7 @@ g = Github(init.git_username, init.git_password)
 user = g.get_user()
 
 if bool_test:
-    rep = user.get_repo("TODO")
+    rep = user.get_repo(repo_name)
 else:
     org = g.get_organization("devonfw")
     rep = org.get_repo("tools-cobigen")
@@ -100,18 +108,21 @@ else:
 def perform_git_pull(message):
     try:
         print_info(message +"..");
-        origin.pull()
+        origin.pull(allow_unrelated_histories=True)
     except git.GitCommandError as e:
         print("[EXCEPTION] Pull is not possible because you have unmerged files. Fix them up in the work tree, and then try again.")
 
 # Method performing git actions
 def perform_git_reset():
-	print_info("Executing git reset --hard HEAD.."+repo.git.reset('--hard'))
+    print_info("Executing git reset --hard HEAD..")
+    repo.git.reset('--hard')
 
 def perform_commit_with_issue_number(commit_message):
     try:
-        print_info("Executing git commit.."+repo.git.commit(message=commit_message))
-        print_info("Executing git push.."+repo.git.push())
+        print_info("Executing git commit..")
+        repo.git.commit(message=commit_message)
+        print_info("Executing git push..")
+        repo.git.push()
     except Exception as e:
 	    if "no changes added to commit" in str(e):
 	        print_info("No File is changed, Nothing to commit..")
@@ -200,9 +211,10 @@ def add_remove_snapshot_version_in_pom(bool_add_snapshot,commit_message,version_
     if bool_dry:
         print_info("dry-run: would add,commit,push pom.xml in git")
     else:   
-	    print_info("Executing git add.."+repo.git.add(["pom.xml"]))
-	    print(repo.git.status())
-	    perform_commit_with_issue_number(commit_message)
+        print_info("Executing git add..")
+        repo.git.add(["pom.xml"])
+        print(repo.git.status())
+        perform_commit_with_issue_number(commit_message)
 
 #This Method is responsible for checking branches in repository with branch entered by user
 def check_branch_validity(branch_name):
@@ -219,15 +231,12 @@ if not ("ICSD_FILESERVER_USER" and "ICSD_FILESERVER_PASSWD") in os.environ:
 
 ############################Step 1.1.1  
 # Enter Branch Name-mandatory
-if bool_test:
-    branch_name="TODO"
-else:
-    branch_name = input("Enter branch name: ")  
+branch_name = input("Enter branch name: ")  
 
-    #Checking if nothing is entered then ask user to enter again   
-    while (branch_name.strip() and not check_branch_validity(branch_name)):
-        print_info("You have entered branch which doesn't exists, Please enter valid branch name.");
-        branch_name = input("Enter branch name: ")   
+#Checking if nothing is entered then ask user to enter again   
+while (branch_name.strip() and not check_branch_validity(branch_name)):
+    print_info("You have entered branch which doesn't exists, Please enter valid branch name.");
+    branch_name = input("Enter branch name: ")   
 
 build_folder_name=get_build_folder(branch_name)
 
@@ -361,7 +370,8 @@ def create_github_issue():
         release_issue_number="999"
     else: 
         release_issue_number=make_github_issue("Release "+build_folder_without_cobigen+"-"+release_version_with_v,git_url,\
-        milestone_number,issue_text,[build_folder_without_cobigen]);	
+        milestone_number,issue_text,[build_folder_without_cobigen]);
+        print_info("Issue #"+release_issue_number+" created")		
     return release_issue_number
     
  # Search for the Release issue to be used , if not found, create one:
@@ -385,7 +395,7 @@ else:
 print("****Script will update versions by navigating to correct module folder depending on #1****")
 os.chdir(build_folder_name)
 print_info("Current working directory changed to: "+os.getcwd())
-if bool_dry:
+if bool_dry or bool_test:
     try:
         print_info("Executing git Add and commit.."+repo.git.add(u=True)+repo.git.commit(message="Temporary commit files while dry run"))
         print_info("Executing git merge --abort.."+git_cmd.execute("git submodule update")+git_cmd.execute("git clean -f -d"));        
@@ -431,7 +441,8 @@ else:
                                 continue
                         except:
                             continue
-    print_info("Executing git add.."+repo.git.add(["pom.xml"]))
+    print_info("Executing git add..")
+    repo.git.add(["pom.xml"])
     print(repo.git.status())
     commit_message="#"+str(release_issue_number)+" Removing SNAPSHOT suffix from dependencies"
     perform_commit_with_issue_number(commit_message)
@@ -451,7 +462,8 @@ if maven_process.returncode == 1:
     if bool_dry:
         print_info("dry-run: would perform git reset and pull")
     else: 
-        print_info("Executing git reset --hard HEAD~2.."+repo.head.reset('HEAD~2', index=True, working_tree=True));
+        print_info("Executing git reset --hard HEAD~2..")
+        repo.head.reset('HEAD~2', index=True, working_tree=True);
         perform_git_pull("Executing git pull as build failed")        
     sys.exit();
 	
@@ -468,13 +480,16 @@ new_title=title+" "+release_version_with_v
 with fileinput.FileInput(wiki_version_overview_page, inplace=True) as file:
 	for line in file:	
 		line = re.sub(r''+title+'.+',new_title, line)
-		sys.stdout.write(line)
+		sys.stdout.write(line)	
 		
+print(release_issue_number)		
 if bool_dry:
     print_info("dry-run: would perform git add, commit and push of wiki page")
 else:
-    print_info("Executing git add.."+repo.git.add([wiki_version_overview_page]))
-    print_info("Executing git commit of tools-cobigen.wiki.."+perform_commit_with_issue_number("#"+release_issue_number+" update wiki docs"))   
+    print_info("Executing git add..")
+    repo.git.add([wiki_version_overview_page])
+    print_info("Executing git commit of tools-cobigen.wiki..")
+    perform_commit_with_issue_number("#"+release_issue_number+" update wiki docs")   
 
 #############################Step 6
 '''Merge development branch into master'''
@@ -486,12 +501,14 @@ if bool_dry:
 else:
     repo.git.checkout("master")
     try:
-	    perform_git_pull("Executing git pull before merging development branch to master")
-	    print_info("Executing git merge..."+repo.git.merge(branch_name));
+        perform_git_pull("Executing git pull before merging development branch to master")
+        print_info("Executing git merge...")
+        git_cmd.execute("git merge --allow-unrelated-histories "+branch_name);
     except:
-	    print_info("Exception occured..")
-	    print_info("Executing git merge --abort.."+git_cmd.execute("git merge --abort"));
-	    perform_git_reset();
+        print_info("Exception occured..")
+        print_info("Executing git merge --abort..")
+        git_cmd.execute("git merge --abort");
+        perform_git_reset();
 	
 #############################Step 7
 '''validation of merge commit'''
@@ -553,8 +570,9 @@ print_info("Creating Tag: "+tag_name)
 if bool_dry:
     print("dry-run:would create a new tag")
 else:
-    new_tag=repo.create_tag(tag_name)
-    print_info("Pushing git tags.."+origin.push(new_tag))
+    new_tag=repo.create_tag(tag_name+"asaxx")
+    print_info("Pushing git tags..")
+    origin.push(new_tag)
 
 #############################Step 11.1
 '''Process GitHub Milestone and Create Release'''
@@ -568,7 +586,7 @@ else:
         print_info("Milestone >>", release_milestone.title, "<< is already closed, please check.")
     else:
         release_milestone.edit(release_milestone.title, "closed", release_milestone.description)
-        print_info("New status of Milestone >>", release_milestone.title, "<< is:", release_milestone.state )
+        print_info("New status of Milestone >>" +release_milestone.title+ "<< is:"+ release_milestone.state )
 
 #############################Step 11.2
 '''create a new release'''
